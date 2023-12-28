@@ -2,11 +2,15 @@ import mongoose from "mongoose";
 
 const DailyScheme = new mongoose.Schema(
   {
-    presenter: {
+    name: {
       type: String,
       required: true,
     },
-    date: {
+    number: {
+      type: String,
+      required: true,
+    },
+    sex: {
       type: String,
       required: true,
     },

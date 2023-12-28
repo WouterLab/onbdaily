@@ -1,45 +1,61 @@
 import { Calendar } from "#components/Calendar";
 import { Card } from "#components/Card";
 import { Heading } from "#components/Heading";
-import { New } from "#components/New";
-import { User, UserSex } from "#types/types";
+import { User } from "#types/types";
+import { useEffect, useState } from "react";
 import { Wrapper } from "./styled";
+import axios from "#services/axios";
+import { RefetchContext } from "#contexts/refetchContext";
+import { Loading } from "#pages/Loading";
 
 export function Home() {
-  const users: User[] = [
-    {
-      sex: UserSex.Male,
-      name: "Danil 1",
-      id: "1",
-    },
-    {
-      sex: UserSex.Female,
-      name: "Danil 2",
-      id: "2",
-    },
-    {
-      sex: UserSex.Female,
-      name: "Danil 3",
-      id: "3",
-    },
-    {
-      sex: UserSex.Male,
-      name: "Danil 4",
-      id: "4",
-    },
-    {
-      sex: UserSex.Male,
-      name: "Danil 5",
-      id: "5",
-    },
-  ];
+  const [dailies, setDailies] = useState([]);
+  const [updated, setUpdated] = useState(true);
+  const [todayPresenter, setTodayPresenter] = useState<User | undefined>(
+    undefined,
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
+  const updateObject = {
+    updated,
+    setUpdated,
+  };
+
+  useEffect(() => {
+    axios
+      .get("/daily")
+      .then((res) => {
+        if (res.data.length > 0) {
+          const usersWithoutFirst = res.data.slice(1);
+          setDailies(usersWithoutFirst);
+          setTodayPresenter(res.data[0]);
+        }
+      })
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [updated]);
 
   return (
-    <Wrapper>
-      <Heading>Daily Calendar</Heading>
-      <Card sex={UserSex.Male} name='Данил Панов' id='0' noRemoval />
-      <Calendar users={users} />
-      <New />
-    </Wrapper>
+    <RefetchContext.Provider value={updateObject}>
+      {!isLoading ? (
+        <Wrapper>
+          <Heading>Daily Calendar</Heading>
+          {todayPresenter && (
+            <Card
+              sex={todayPresenter.sex}
+              name={todayPresenter.name}
+              _id={todayPresenter._id}
+            />
+          )}
+          <Calendar users={dailies} />
+        </Wrapper>
+      ) : (
+        <Loading />
+      )}
+    </RefetchContext.Provider>
   );
 }

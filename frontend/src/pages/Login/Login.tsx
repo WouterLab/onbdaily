@@ -3,18 +3,58 @@ import { Heading } from "#components/Heading";
 import { Input } from "#components/Input";
 import { SubHeading } from "#components/SubHeading";
 import { useNavigate } from "react-router";
-import { Wrapper, Actions } from "./styled";
-import { ChangeEvent, useState } from "react";
+import { Wrapper, Actions, Inputs, ErrorTag } from "./styled";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import axios from "#services/axios";
 
-export function Login() {
+export function Login({
+  setLogin,
+}: {
+  setLogin: Dispatch<SetStateAction<boolean>>;
+}) {
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     login: "",
     password: "",
   });
+  const [reqError, setReqError] = useState("");
 
-  const authUser = () => {};
+  const authUser = () => {
+    axios
+      .post("/login", loginData)
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
+        }
+        return res;
+      })
+      .then((res) => {
+        const token = localStorage.getItem("token");
+        axios.get("/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return res;
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setLogin(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response) {
+          if (typeof err.response.data === "object") {
+            setReqError(err.response.data.msg);
+          }
+          if (Array.isArray(err.response.data)) {
+            setReqError(err.response.data[0].msg);
+          }
+        } else setReqError(err.message);
+      });
+  };
 
   const changeLoginData = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     setLoginData({ ...loginData, [field]: e.target.value });
@@ -23,19 +63,28 @@ export function Login() {
   return (
     <Wrapper>
       <Heading>Authorization</Heading>
-      <SubHeading>Логин</SubHeading>
-      <Input
-        value={loginData.login}
-        onChange={(e) => changeLoginData(e, "login")}
-        placeholder='Login'
-      />
-      <SubHeading>Пароль</SubHeading>
-      <Input
-        value={loginData.password}
-        onChange={(e) => changeLoginData(e, "password")}
-        placeholder='********'
-        type='password'
-      />
+      <Inputs>
+        <SubHeading>Логин</SubHeading>
+        <Input
+          value={loginData.login}
+          onChange={(e) => changeLoginData(e, "login")}
+          placeholder='Login'
+          onKeyDown={(e) => {
+            if (e.key === "Enter") authUser();
+          }}
+        />
+        <SubHeading>Пароль</SubHeading>
+        <Input
+          value={loginData.password}
+          onChange={(e) => changeLoginData(e, "password")}
+          placeholder='********'
+          type='password'
+          onKeyDown={(e) => {
+            if (e.key === "Enter") authUser();
+          }}
+        />
+        {reqError && <ErrorTag>{reqError}</ErrorTag>}
+      </Inputs>
       <Actions>
         <Button onClick={authUser}>Войти</Button>
         <Button ghost onClick={() => navigate("/reg")}>

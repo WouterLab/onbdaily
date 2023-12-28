@@ -1,10 +1,12 @@
 import DailyModel from "../models/Daily.js";
 
 export const create = async (req, res) => {
+  const count = await DailyModel.countDocuments({}).exec();
   try {
     const doc = new DailyModel({
-      presenter: req.body.presenter,
-      date: req.body.date,
+      name: req.body.name,
+      number: count,
+      sex: req.body.sex,
     });
 
     const daily = await doc.save();
@@ -84,8 +86,8 @@ export const update = async (req, res) => {
         _id: dailyId,
       },
       {
-        presenter: req.body.presenter,
-        date: req.body.date,
+        name: req.body.name,
+        sex: req.body.sex,
       },
     );
 

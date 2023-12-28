@@ -41,6 +41,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  console.log(req.cookies);
   try {
     const user = await UserModel.findOne({
       login: req.body.login,

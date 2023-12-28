@@ -21,5 +21,4 @@ export const loginValidation = [
 
 export const dailyCreateValidation = [
   body("name", "Имя должно быть строкой").isString(),
-  body("date", "Дата должна быть строкой").isString(),
 ];

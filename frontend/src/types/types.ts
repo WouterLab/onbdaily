@@ -3,6 +3,8 @@ export enum UserSex {
   Female = "female",
 }
 
-export type User = { sex: UserSex; name: string; id?: string };
+export type User = { sex: UserSex; name: string; _id?: string };
 
-export type Options = Omit<User, "id">[];
+export type Option = Omit<User, "id">;
+
+export type Options = Option[];
