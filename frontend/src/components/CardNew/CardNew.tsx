@@ -26,8 +26,7 @@ export function CardNew() {
         setIsModalOpened(false);
         if (updateObject) updateObject.setUpdated(!updateObject.updated);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         alert("Failed to add presenter.");
       });
   };

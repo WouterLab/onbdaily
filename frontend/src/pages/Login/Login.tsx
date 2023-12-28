@@ -44,7 +44,6 @@ export function Login({
         }
       })
       .catch((err) => {
-        console.log(err);
         if (err.response) {
           if (typeof err.response.data === "object") {
             setReqError(err.response.data.msg);

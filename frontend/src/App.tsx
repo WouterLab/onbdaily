@@ -25,8 +25,7 @@ export function App() {
       .then((res) => {
         if (res.status === 200) setUserLogged(true);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setUserLogged(false);
       })
       .finally(() => {

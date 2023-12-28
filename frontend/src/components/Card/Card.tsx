@@ -38,8 +38,7 @@ export function Card({ sex, name, _id }: User) {
       .then(() => {
         updateObject?.setUpdated(!updateObject.updated);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         alert("Failed to delete presenter.");
       });
   };
@@ -59,8 +58,7 @@ export function Card({ sex, name, _id }: User) {
           },
         },
       )
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         alert("Failed to update presenter.");
       });
   };

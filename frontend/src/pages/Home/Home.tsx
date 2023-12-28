@@ -34,8 +34,8 @@ export function Home() {
       .then(() => {
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        alert("Failed to get");
       });
   }, [updated]);
 
