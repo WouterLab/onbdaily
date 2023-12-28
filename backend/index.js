@@ -13,7 +13,7 @@ import "dotenv/config";
 const app = express();
 
 mongoose
-  .connect(process.env.MONGOOSE_DATABASE)
+  .connect(process.env.DB_CONNECTION_STRING)
   .then(() => {
     console.log("Database loaded.");
   })
@@ -56,7 +56,7 @@ app.patch(
   DailyController.update,
 );
 
-app.listen("4000", (err) => {
+app.listen(process.env.APP_PORT, process.env.APP_IP, (err) => {
   if (err) return console.log(err);
   console.log("Server started!");
 });
