@@ -41,7 +41,7 @@ export function New() {
       <SubHeading>Добавить нового ведущего:</SubHeading>
       <Actions>
         <Select options={options} />
-        <Button>Добавить</Button>
+        <Button onClick={() => {}}>Добавить</Button>
       </Actions>
     </Wrapper>
   );
