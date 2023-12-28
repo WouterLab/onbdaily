@@ -8,13 +8,12 @@ import {
 import { UserController, DailyController } from "./controllers/index.js";
 import { checkAuth, handleValidationErrors } from "./utils/index.js";
 import cors from "cors";
+import "dotenv/config";
 
 const app = express();
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:Transf1f2f3f4f@daily.udhpkcu.mongodb.net/calendar?retryWrites=true&w=majority",
-  )
+  .connect(process.env.MONGOOSE_DATABASE)
   .then(() => {
     console.log("Database loaded.");
   })
