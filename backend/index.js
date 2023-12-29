@@ -48,6 +48,7 @@ app.post(
   DailyController.create,
 );
 app.delete("/daily/:id", checkAuth, DailyController.remove);
+app.patch("/daily", checkAuth, DailyController.updateAll);
 app.patch(
   "/daily/:id",
   checkAuth,

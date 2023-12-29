@@ -103,3 +103,40 @@ export const update = async (req, res) => {
     });
   }
 };
+
+export const updateAll = async (req, res) => {
+  try {
+    await DailyModel.deleteMany({});
+
+    let counter = await DailyModel.countDocuments({}).exec();
+
+    const documentsToSave = [];
+
+    for (const { name, number, sex } of req.body) {
+      const doc = new DailyModel({
+        name,
+        number,
+        sex,
+        user: req.userId,
+      });
+
+      counter++;
+
+      documentsToSave.push(doc);
+    }
+
+    await DailyModel.insertMany(documentsToSave);
+
+    const sortedResults = await DailyModel.find().sort({ number: 1 }).exec();
+
+    res.json({
+      success: true,
+      data: sortedResults,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Не удалось обновить Daily",
+    });
+  }
+};

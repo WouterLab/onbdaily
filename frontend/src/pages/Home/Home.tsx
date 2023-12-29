@@ -7,6 +7,8 @@ import { Wrapper } from "./styled";
 import axios from "#services/axios";
 import { RefetchContext } from "#contexts/refetchContext";
 import { Loading } from "#pages/Loading";
+import { Button } from "#components/Button";
+import { mock } from "#constants/mockData";
 
 export function Home() {
   const [dailies, setDailies] = useState([]);
@@ -39,6 +41,23 @@ export function Home() {
       });
   }, [updated]);
 
+  const handleClear = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .patch("/daily", mock, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setUpdated(!updated);
+      })
+      .catch(() => {
+        alert("Failed update daily");
+      });
+  };
+
   return (
     <RefetchContext.Provider value={updateObject}>
       {!isLoading ? (
@@ -52,6 +71,7 @@ export function Home() {
             />
           )}
           <Calendar users={dailies} />
+          <Button onClick={handleClear}>Сброс</Button>
         </Wrapper>
       ) : (
         <Loading />
