@@ -7,6 +7,7 @@ export const create = async (req, res) => {
       name: req.body.name,
       number: count,
       sex: req.body.sex,
+      user: req.userId,
     });
 
     const daily = await doc.save();
@@ -88,6 +89,7 @@ export const update = async (req, res) => {
       {
         name: req.body.name,
         sex: req.body.sex,
+        user: req.userId,
       },
     );
 
