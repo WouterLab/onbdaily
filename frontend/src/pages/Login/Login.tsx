@@ -2,7 +2,6 @@ import { Button } from "#components/Button";
 import { Heading } from "#components/Heading";
 import { Input } from "#components/Input";
 import { SubHeading } from "#components/SubHeading";
-import { useNavigate } from "react-router";
 import { Wrapper, Actions, Inputs, ErrorTag } from "./styled";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import axios from "#services/axios";
@@ -12,8 +11,6 @@ export function Login({
 }: {
   setLogin: Dispatch<SetStateAction<boolean>>;
 }) {
-  const navigate = useNavigate();
-
   const [loginData, setLoginData] = useState({
     login: "",
     password: "",
@@ -86,9 +83,9 @@ export function Login({
       </Inputs>
       <Actions>
         <Button onClick={authUser}>Войти</Button>
-        <Button ghost onClick={() => navigate("/reg")}>
+        {/* <Button ghost onClick={() => navigate("/reg")}>
           Регистрация
-        </Button>
+        </Button> */}
       </Actions>
     </Wrapper>
   );
