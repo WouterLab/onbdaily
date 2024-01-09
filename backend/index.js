@@ -57,8 +57,8 @@ app.patch(
   DailyController.update,
 );
 
-// app.listen(process.env.APP_PORT, process.env.APP_IP, (err) => {
-app.listen("4000", (err) => {
+app.listen(process.env.APP_PORT, process.env.APP_IP, (err) => {
+  // app.listen("4000", (err) => {
   if (err) return console.log(err);
   console.log("Server started!");
 });
