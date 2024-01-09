@@ -31,6 +31,7 @@ export function Home() {
           const usersWithoutFirst = res.data.slice(1);
           setDailies(usersWithoutFirst);
           setTodayPresenter(res.data[0]);
+          console.log(res.data[0]);
         }
       })
       .then(() => {

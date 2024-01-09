@@ -8,12 +8,12 @@ export const mock = [
   },
   {
     name: "Артём Сауляк",
-    sex: UserSex.Female,
+    sex: UserSex.Male,
     number: 1,
   },
   {
     name: "Катя Сергеева",
-    sex: UserSex.Male,
+    sex: UserSex.Female,
     number: 2,
   },
   {

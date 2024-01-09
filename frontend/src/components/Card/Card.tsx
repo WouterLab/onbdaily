@@ -14,13 +14,17 @@ import {
 import MalePng from "#assets/male.png";
 import FemalePng from "#assets/female.png";
 import DeletePng from "#assets/close-cross.png";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import axios from "#services/axios";
 import { RefetchContext } from "#contexts/refetchContext";
 
 export function Card({ sex, name, _id }: User) {
   const [userName, setUserName] = useState(name);
   const updateObject = useContext(RefetchContext);
+
+  useEffect(() => {
+    setUserName(name);
+  }, [name]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target?.value);
