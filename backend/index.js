@@ -20,7 +20,12 @@ mongoose
   .catch((err) => console.log("Database error: ", err));
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://onbdaily.vercel.app",
+    optionsSuccessStatus: 200,
+  }),
+);
 
 app.post(
   "/reg",
